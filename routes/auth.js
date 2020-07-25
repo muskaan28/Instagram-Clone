@@ -9,13 +9,12 @@ const { JWT_SECRET } = require("../config/keys");
 const requireLogin = require("../middleware/requireLogin");
 const nodemailer = require("nodemailer");
 const sendgridTransport = require("nodemailer-sendgrid-transport");
-//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
+const { SENDGRID_API, EMAIL } = require("../config/keys");
 
 const transporter = nodemailer.createTransport(
   sendgridTransport({
     auth: {
-      api_key:
-        "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",
+      api_key: SENDGRID_API,
     },
   })
 );
@@ -109,7 +108,7 @@ router.post("/reset-password", (req, res) => {
           subject: "password reset",
           html: `
                   <p>You requested for password reset</p>
-                  <h5>click in this <a href="http://localhost:3000/reset/${token}">link</a> to reset password</h5>
+                  <h5>click in this <a href="${EMAIL}/reset/${token}">link</a> to reset password</h5>
                   `,
         });
         res.json({ message: "check your email" });
